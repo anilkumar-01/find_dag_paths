@@ -18,7 +18,7 @@ class Graph :
     def createGraph(self,edges):
 
         for edge in edges:
-            # getting all nodes with 0 in-degree and out-degree
+            # getting all nodes with 0 in-degree and 0 out-degree
             if len(edge) > 1:
 
                 first, second = edge[0], edge[1]
@@ -39,15 +39,16 @@ class Graph :
             # for each node with in-degree 0
             # print all possible paths
             if self.indeg0[i] and self.adjNodes[i]:
-                # Clear previously stored path
+                # clear previously stored path
                 path = []
                 path.append(i)
                 self.DFS(i, path)
-                
+            
+            # if a node is 0 in-degree but doesn't have any adjacent node
             if self.indeg0[i] and not self.adjNodes[i]:
                     self.allpaths.append([i])
 
-        # Print all paths starting from 0 in-degree nodes
+        # print all paths starting from 0 in-degree nodes
         self.printPaths ()
         return self.allpaths
 
@@ -56,7 +57,7 @@ class Graph :
         for path in self.allpaths:
             print(*path, sep='->')
 
-    # Recursive function to find all the paths in a graph
+    # recursive function to find all the paths in a graph
     def DFS (self, current_node, current_path):
         
         # current node has out-degree 0 that means end of a path,
@@ -67,6 +68,8 @@ class Graph :
             for adjnode in self.adjNodes[current_node]:
                 # append adjacent node to current path
                 current_path.append(adjnode)
+                
+                # call recursive function to progress through path 
                 self.DFS (adjnode,current_path)
                 # current path is completed, remove last node from path to backtrack
                 current_path.pop()
